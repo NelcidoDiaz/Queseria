@@ -1,8 +1,9 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Factura {
+public class Factura implements Serializable {
  private ArrayList <Queso> misQuesos = new ArrayList <Queso>();
  private Cliente cliente;
  private float total;
@@ -43,12 +44,13 @@ public void setTotal(float total) {
 	 }
 	 return Ids;
  }
- public void getVolumen() {
-	 int contador = 0;
-	 float volumenes = 0;
-	 for(Queso queso: misQuesos)
-	 {
-	  
+ public float precioTotal() {
+	 float total = 0;
+	 for(Queso i: misQuesos) {
+		 if(i!=null) {
+			 total += i.precioTotal();
+		 }
 	 }
-	 }
+	 return total;
+}
 }

@@ -6,11 +6,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class Servidor extends Thread {
-
+	public static Vector facturas = new Vector();
+	
 	public static void main(String[] args) {
 		ServerSocket sfd = null;
+		
 		
 	    try
 	    {
@@ -32,7 +36,7 @@ public class Servidor extends Thread {
 	        String str = archLectura.leerArchivo();
 	        
 	        try {
-	        	Fichero archEscribir = new Fichero("C:\\Users\\gesbi\\git\\Queseria\\factura\\factura.txt");
+	        	Fichero archEscribir = new Fichero("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\factura.txt");
 	        	FileWriter outStream = new FileWriter(archEscribir.crearArchivo());
 	        	outStream.write(str);
 	        	outStream.close();

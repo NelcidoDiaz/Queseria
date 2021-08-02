@@ -30,7 +30,7 @@ import java.awt.event.WindowEvent;
 public class Main extends JFrame {
 
 	private JPanel contentPane;
-	private Queseria queseria = new Queseria();
+	private Queseria queseria = Queseria.getInstance();
 
 	// private Queso queso = new Cilindro(14,14,12,12);
 	/**

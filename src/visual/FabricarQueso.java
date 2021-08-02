@@ -17,9 +17,16 @@ import logico.CilindroHueco;
 import logico.Cliente;
 import logico.Esfera;
 import logico.Factura;
+import logico.Queseria;
 import logico.Queso;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import java.awt.event.ItemListener;
@@ -30,9 +37,9 @@ import java.awt.event.ActionEvent;
 public class FabricarQueso extends JFrame {
 
 	private JPanel contentPane;
-	private ArrayList<Queso> misQuesos = new ArrayList <Queso>();
-	private ArrayList<Factura> misFacturas;
-	private ArrayList<Cliente> misClientes;
+	private ArrayList<Queso> misQuesos = Queseria.getInstance().getMisQuesos(); ;
+	private ArrayList<Factura> misFacturas = Queseria.getInstance().getMisFacturas();
+	private ArrayList<Cliente> misClientes = Queseria.getInstance().getMisClientes();
 	private final JLabel lblPrecioBase = new JLabel("Precio Base");
 	private JTextField txtRadio;
 	private JTextField txtLongitud;
@@ -47,6 +54,23 @@ public class FabricarQueso extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream queseria;
+				FileOutputStream queseria2;
+				ObjectInputStream queseriaRead;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria = new FileInputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaRead = new ObjectInputStream(queseria);
+					Queseria temp = (Queseria) queseriaRead.readObject();
+					Queseria.setControl(temp);
+					queseriaRead.close();
+				} catch (FileNotFoundException q) {
+				
+				} catch(IOException q) {
+					
+				}catch(ClassNotFoundException q) {
+					q.printStackTrace();
+				}
 				try {
 					FabricarQueso frame = new FabricarQueso();
 					frame.setVisible(true);
@@ -196,20 +220,14 @@ public class FabricarQueso extends JFrame {
 				if (cmbTipo.getSelectedItem().equals("Cilindrico")) {
 					float longitud = Float.parseFloat(txtLongitud.getText());
 					Cilindro quesoCilindrico = new Cilindro(precioBase, precioUnitario, radio, longitud);
-					int aumento = quesoCilindrico.getId() + 1;
-					quesoCilindrico.setId(aumento);
 					misQuesos.add(quesoCilindrico);
 				} else if (cmbTipo.getSelectedItem().equals("Cilindrico Hueco")) {
 					float radioInterior = Float.parseFloat(txtRadioInterior.getText());
 					float segundoCilindro = Float.parseFloat(txtRadioSegCilindro.getText());
 					CilindroHueco quesoCilindroHueco = new CilindroHueco(precioBase,precioUnitario,segundoCilindro,radioInterior);
-					int aumento = quesoCilindroHueco.getId();
-					quesoCilindroHueco.setId(aumento);
                     misQuesos.add(quesoCilindroHueco);
 				} else if (cmbTipo.getSelectedItem().equals("Esferico")) {
 					Esfera quesoEsfera = new Esfera(precioBase,precioUnitario,radio);
-					int aumento = quesoEsfera.getId();
-					quesoEsfera.setId(aumento);
 					misQuesos.add(quesoEsfera);
 				}
 				limpiar();

@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Cilindro;
 import logico.Cliente;
 import logico.Factura;
+import logico.Queseria;
 import logico.Queso;
 
 import javax.swing.JTable;
@@ -25,21 +26,44 @@ import java.awt.event.WindowAdapter;
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.beans.PropertyChangeListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.beans.PropertyChangeEvent;
 
 public class ListarQueso extends JFrame {
 
 	private JPanel contentPane;
 	private final JTable table = new JTable();
-	private ArrayList<Queso> misQuesos = new ArrayList <Queso>();
-	private ArrayList<Factura> misFacturas;
-	private ArrayList<Cliente> misClientes;
+	private ArrayList<Queso> misQuesos = Queseria.getInstance().getMisQuesos();;
+	private ArrayList<Factura> misFacturas = Queseria.getInstance().getMisFacturas();;
+	private ArrayList<Cliente> misClientes = Queseria.getInstance().getMisClientes();;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream queseria;
+				FileOutputStream queseria2;
+				ObjectInputStream queseriaRead;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria = new FileInputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaRead = new ObjectInputStream(queseria);
+					Queseria temp = (Queseria) queseriaRead.readObject();
+					Queseria.setControl(temp);
+					queseriaRead.close();
+				} catch (FileNotFoundException q) {
+				
+				} catch(IOException q) {
+					
+				}catch(ClassNotFoundException q) {
+					q.printStackTrace();
+				}
 				try {
 					ListarQueso frame = new ListarQueso();
 					frame.setVisible(true);

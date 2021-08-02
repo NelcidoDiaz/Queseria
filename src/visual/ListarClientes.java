@@ -10,19 +10,26 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import logico.Cliente;
 import logico.Factura;
+import logico.Queseria;
 import logico.Queso;
 
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 public class ListarClientes extends JFrame {
-	private ArrayList<Cliente> misClientes;
-	private ArrayList <Factura> misFacturas;
-	private ArrayList<Queso> misQuesos;
+	private ArrayList<Cliente> misClientes = Queseria.getInstance().getMisClientes();;
+	private ArrayList <Factura> misFacturas = Queseria.getInstance().getMisFacturas();;
+	private ArrayList<Queso> misQuesos = Queseria.getInstance().getMisQuesos();
 	private JPanel contentPane;
 	private JTable table;
 
@@ -32,6 +39,23 @@ public class ListarClientes extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream queseria;
+				FileOutputStream queseria2;
+				ObjectInputStream queseriaRead;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria = new FileInputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaRead = new ObjectInputStream(queseria);
+					Queseria temp = (Queseria) queseriaRead.readObject();
+					Queseria.setControl(temp);
+					queseriaRead.close();
+				} catch (FileNotFoundException q) {
+				
+				} catch(IOException q) {
+					
+				}catch(ClassNotFoundException q) {
+					q.printStackTrace();
+				}
 				try {
 					ListarClientes frame = new ListarClientes();
 					frame.setVisible(true);
@@ -92,6 +116,7 @@ public class ListarClientes extends JFrame {
 					 main.setVisible(true);
 					 dispose();
 				}
+				
 			});
 	}
 

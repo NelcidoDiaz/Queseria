@@ -11,24 +11,37 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import logico.Queso;
+import logico.Servidor;
 import logico.Factura;
 import logico.Fichero;
 import logico.Queseria;
 import logico.Cilindro;
+import logico.CilindroHueco;
 import logico.Cliente;
+import logico.Esfera;
+
 import java.awt.event.WindowStateListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.beans.PropertyChangeListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.beans.PropertyChangeEvent;
 
 public class ComprarQueso extends JFrame {
@@ -37,15 +50,16 @@ public class ComprarQueso extends JFrame {
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
 	private JTextField txtDireccion;
-	private ArrayList<Queso> misQuesos = new ArrayList<Queso>();
-	private ArrayList<Factura> misFacturas;
-	private ArrayList<Cliente> misClientes = new ArrayList<Cliente>();
+	private ArrayList<Queso> misQuesos = Queseria.getInstance().getMisQuesos();
+	private ArrayList<Factura> misFacturas = Queseria.getInstance().getMisFacturas();
+	private ArrayList<Cliente> misClientes = Queseria.getInstance().getMisClientes();
 	private ArrayList<Queso> quesosSeleccionados = new ArrayList<Queso>();
 	private Cliente cliente;
 	private JTable table;
 	private JTextField txtCedula;
 	private JTable tQuesos;
 	private JTable tQuesosComprados;
+	public static String outStr = "";
 
 	/**
 	 * Launch the application.
@@ -53,12 +67,30 @@ public class ComprarQueso extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream queseria;
+				FileOutputStream queseria2;
+				ObjectInputStream queseriaRead;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria = new FileInputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaRead = new ObjectInputStream(queseria);
+					Queseria temp = (Queseria) queseriaRead.readObject();
+					Queseria.setControl(temp);
+					queseriaRead.close();
+				} catch (FileNotFoundException q) {
+				
+				} catch(IOException q) {
+					
+				}catch(ClassNotFoundException q) {
+					q.printStackTrace();
+				}
 				try {
 					ComprarQueso frame = new ComprarQueso();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} catch(Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		});
 	}
@@ -262,10 +294,31 @@ public class ComprarQueso extends JFrame {
 						txtCedula.getText());
 				Factura nuevaFactura = new Factura(quesosSeleccionados, cliente);
 				misFacturas.add(nuevaFactura);
+				misClientes.add(cliente);
+				Date fecha = new Date();
+				SimpleDateFormat dt1 = new SimpleDateFormat("dd-MM-yyyy");
 				try {
 					Fichero archivo = new Fichero("C:\\Users\\gesbi\\git\\Queseria\\factura\\factura.txt");
-					archivo.crearArchivo();
-					archivo.escribirArchivo(nuevaFactura);
+					FileWriter out = new FileWriter(archivo.crearArchivo());
+					outStr = "-------------------------------------------\nFactura "+"\n-------------------------------------------\nCliente: " +nuevaFactura.getClienteNombre()+"\nTelefono: "+nuevaFactura.getCliente().getTelefono()+"\nFecha de facturacion: "+dt1.format(fecha)+"\n-------------------------------------------\nProducto      Tipo     Volumen      Precio\n";
+					for(Queso i: nuevaFactura.getMisQuesos()) {
+						outStr += "Queso" + i.getId()+"		";
+						if(i != null) {
+							if(i instanceof Esfera) {
+								outStr += "E ";
+							}
+							else if(i instanceof CilindroHueco) {
+								outStr += "CH ";
+							}
+							else if(i instanceof Cilindro) {
+								outStr += "C ";
+							}
+							outStr += "		"+i.volumen()+"		"+i.precioTotal()+"\n";
+						}
+					}
+					outStr += "-------------------------------------------\nPrecio Total: "+nuevaFactura.precioTotal();
+					out.write(outStr);
+					out.close();
 				}
 				catch(IOException ioe) {
 					JOptionPane.showMessageDialog(null, "Error "+ioe);

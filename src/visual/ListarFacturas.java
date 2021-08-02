@@ -10,11 +10,18 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
 import logico.Factura;
+import logico.Queseria;
 import logico.Queso;
 
 import javax.swing.JTable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import logico.Factura;
 import javax.swing.JButton;
@@ -24,15 +31,32 @@ public class ListarFacturas extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	private ArrayList <Factura> misFacturas = new ArrayList <Factura>();
-	private ArrayList<Queso> misQuesos;
-	private ArrayList<Cliente> misClientes;
+	private ArrayList <Factura> misFacturas = Queseria.getInstance().getMisFacturas();
+	private ArrayList<Queso> misQuesos = Queseria.getInstance().getMisQuesos();;
+	private ArrayList<Cliente> misClientes = Queseria.getInstance().getMisClientes();;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream queseria;
+				FileOutputStream queseria2;
+				ObjectInputStream queseriaRead;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria = new FileInputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaRead = new ObjectInputStream(queseria);
+					Queseria temp = (Queseria) queseriaRead.readObject();
+					Queseria.setControl(temp);
+					queseriaRead.close();
+				} catch (FileNotFoundException q) {
+				
+				} catch(IOException q) {
+					
+				}catch(ClassNotFoundException q) {
+					q.printStackTrace();
+				}
 				try {
 					ListarFacturas frame = new ListarFacturas();
 					frame.setVisible(true);
@@ -90,7 +114,7 @@ public class ListarFacturas extends JFrame {
 			public void windowActivated(WindowEvent e) {
 			 int contador = 0;
 			 for(Factura factura: misFacturas) {
-			  	facturas.insertRow(contador,new Object[] {factura.getCliente().getNombre(),factura.getCliente().getCedula(),/*factura.getMisQuesos()*/} ); 
+			  	facturas.insertRow(contador,new Object[] {factura.getCliente().getNombre(),factura.getCliente().getCedula(),factura.getTotal()} ); 
 			 }
 			}
 		});

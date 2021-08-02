@@ -1,16 +1,20 @@
 package logico;
 
-public abstract class Queso {
+import java.io.Serializable;
+
+public abstract class Queso implements Serializable {
  private float precioBase;
  private float precioUnitario;
- private static int id;
+ private static int id = 0;
+ 
  public float precioTotal() {
-  return 0;
+	 return precioBase + precioUnitario * volumen();
  }
 public Queso(float precioBase, float precioUnitario) {
 	super();
 	this.precioBase = precioBase;
 	this.precioUnitario = precioUnitario;
+	id++;
 }
 public float getPrecioBase() {
 	return precioBase;

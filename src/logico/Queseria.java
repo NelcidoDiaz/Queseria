@@ -25,6 +25,12 @@ public class Queseria implements Serializable {
 		return control;
    }
    
+	public static Queseria getControl() {
+	return control;
+}
+public static void setControl(Queseria control) {
+	Queseria.control = control;
+}
 	public ArrayList<Queso> getMisQuesos() {
 		return misQuesos;
 	}

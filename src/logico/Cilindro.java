@@ -1,6 +1,6 @@
 package logico;
 
-public class Cilindro extends Queso {
+public class Cilindro extends Queso  {
 	private double radio;
 	private float longitud;
 
