@@ -11,6 +11,7 @@ public class Servidor extends Thread {
 
 	public static void main(String[] args) {
 		ServerSocket sfd = null;
+		
 	    try
 	    {
 	      sfd = new ServerSocket(7000);
@@ -25,20 +26,20 @@ public class Servidor extends Thread {
 	    {
 	      try
 	      {
+	    	Fichero archLectura =  new Fichero("git\\Queseria\\factura\\factura.txt");
+	        archLectura.crearArchivo();
 	        Socket socket = sfd.accept();
-	        DataInputStream disco = new DataInputStream(socket.getInputStream());
-	        String str = disco.readUTF();
+	        String str = archLectura.leerArchivo();
 	        
 	        try {
-	        	File outFile = new File("git\\Queseria\\factura\\factura.txt");
-	        	FileWriter outputStream = new FileWriter(outFile);
-	        	outputStream.write(str);
-	        	outputStream.close();
+	        	Fichero archEscribir = new Fichero("git\\Queseria\\respaldo\\factura.txt");
+	        	FileWriter outStream = new FileWriter(archEscribir.crearArchivo());
+	        	outStream.write(str);
+	        	outStream.close();
 	        } catch(IOException ioe) {
 	        	ioe.printStackTrace();
 	        }
 	        System.out.print("Factura Recibida");
-	        disco.close();
 	        socket.close();
 	      }
 	      catch(IOException ioe)
