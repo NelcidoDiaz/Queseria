@@ -31,16 +31,14 @@ public File crearArchivo() throws IOException{
 	 }
 	 return archivo;
   }
-  public void escribirArchivo(ArrayList <Factura> lista) throws IOException
+  public void escribirArchivo(Factura factura) throws IOException
   {
 	 FileWriter archivo = new  FileWriter(direccion);
 	 BufferedWriter buffer = new BufferedWriter(archivo);
 	 try 
 	 {
 	  archivo.flush();	 
-	  for(Factura factura: lista) {
-		buffer.write(Float.toString(factura.getTotal()) + factura.getClienteNombre());
-	  }
+	  buffer.write(Float.toString(factura.getTotal()) + factura.getClienteNombre());
 	 }
 	 catch(FileNotFoundException nodirec)
 	 {

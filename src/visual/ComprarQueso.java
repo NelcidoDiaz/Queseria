@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import logico.Queso;
 import logico.Factura;
+import logico.Fichero;
+import logico.Queseria;
 import logico.Cilindro;
 import logico.Cliente;
 import java.awt.event.WindowStateListener;
@@ -25,6 +28,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.beans.PropertyChangeEvent;
 
 public class ComprarQueso extends JFrame {
@@ -258,6 +262,14 @@ public class ComprarQueso extends JFrame {
 						txtCedula.getText());
 				Factura nuevaFactura = new Factura(quesosSeleccionados, cliente);
 				misFacturas.add(nuevaFactura);
+				try {
+					Fichero archivo = new Fichero("git\\Queseria\\factura\\factura.txt");
+					archivo.crearArchivo();
+					archivo.escribirArchivo(nuevaFactura);
+				}
+				catch(IOException ioe) {
+					JOptionPane.showMessageDialog(null, "Error "+ioe);
+				}
 				limpiar();
 				System.out.println("Factura realizada");
 			}
