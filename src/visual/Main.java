@@ -70,7 +70,7 @@ public class Main extends JFrame {
 				FileOutputStream queseria2;
 				ObjectOutputStream queseriaWrite;
 				try {
-					queseria2 = new FileOutputStream("git\\Queseria\\respaldo\\Queseria.dat");
+					queseria2 = new FileOutputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
 					queseriaWrite = new ObjectOutputStream(queseria2);
 					queseriaWrite.writeObject(Queseria.getInstance());		
 				} catch(FileNotFoundException q1) {
@@ -90,10 +90,8 @@ public class Main extends JFrame {
 		JMenu mnQueso = new JMenu("Quesos");
 		mnQueso.addMouseListener(new MouseAdapter() {
 			@Override
-
 			public void mouseClicked(MouseEvent e) {
-				ComprarQueso comprarQueso = new ComprarQueso();
-				comprarQueso.setVisible(true);
+				
 			}
 		});
 		menuMain.add(mnQueso);
@@ -101,6 +99,8 @@ public class Main extends JFrame {
 		JMenu mnCrearQueso_1 = new JMenu("Crear");
 		mnCrearQueso_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ComprarQueso comprarQueso = new ComprarQueso();
+				comprarQueso.setVisible(true);
 			}
 		});
 		mnCrearQueso_1.addMouseListener(new MouseAdapter() {

@@ -37,9 +37,9 @@ public class ComprarQueso extends JFrame {
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
 	private JTextField txtDireccion;
-	private ArrayList<Queso> misQuesos;
+	private ArrayList<Queso> misQuesos = new ArrayList<Queso>();
 	private ArrayList<Factura> misFacturas;
-	private ArrayList<Cliente> misClientes;
+	private ArrayList<Cliente> misClientes = new ArrayList<Cliente>();
 	private ArrayList<Queso> quesosSeleccionados = new ArrayList<Queso>();
 	private Cliente cliente;
 	private JTable table;
@@ -263,7 +263,7 @@ public class ComprarQueso extends JFrame {
 				Factura nuevaFactura = new Factura(quesosSeleccionados, cliente);
 				misFacturas.add(nuevaFactura);
 				try {
-					Fichero archivo = new Fichero("git\\Queseria\\factura\\factura.txt");
+					Fichero archivo = new Fichero("C:\\Users\\gesbi\\git\\Queseria\\factura\\factura.txt");
 					archivo.crearArchivo();
 					archivo.escribirArchivo(nuevaFactura);
 				}
@@ -271,7 +271,7 @@ public class ComprarQueso extends JFrame {
 					JOptionPane.showMessageDialog(null, "Error "+ioe);
 				}
 				limpiar();
-				System.out.println("Factura realizada");
+				JOptionPane.showMessageDialog(null, "Factura realizada");
 			}
 		});
 	}

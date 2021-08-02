@@ -1,8 +1,11 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Queseria {
+public class Queseria implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
     private ArrayList <Queso> misQuesos = new ArrayList <Queso>();
     private ArrayList <Factura> misFacturas = new ArrayList <Factura>();
     private ArrayList <Cliente> misClientes = new ArrayList <Cliente>();

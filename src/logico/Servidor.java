@@ -26,13 +26,13 @@ public class Servidor extends Thread {
 	    {
 	      try
 	      {
-	    	Fichero archLectura =  new Fichero("git\\Queseria\\factura\\factura.txt");
+	    	Fichero archLectura =  new Fichero("C:\\Users\\gesbi\\git\\Queseria\\factura\\factura.txt");
 	        archLectura.crearArchivo();
 	        Socket socket = sfd.accept();
 	        String str = archLectura.leerArchivo();
 	        
 	        try {
-	        	Fichero archEscribir = new Fichero("git\\Queseria\\respaldo\\factura.txt");
+	        	Fichero archEscribir = new Fichero("C:\\Users\\gesbi\\git\\Queseria\\factura\\factura.txt");
 	        	FileWriter outStream = new FileWriter(archEscribir.crearArchivo());
 	        	outStream.write(str);
 	        	outStream.close();
