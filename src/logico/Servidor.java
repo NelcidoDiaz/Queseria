@@ -1,12 +1,13 @@
 package logico;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Vector;
 
 public class Servidor extends Thread {
-	public static Vector usuarios = new Vector();
 
 	public static void main(String[] args) {
 		ServerSocket sfd = null;
@@ -16,15 +17,29 @@ public class Servidor extends Thread {
 	    }
 	    catch (IOException ioe)
 	    {
-	      System.out.println("Comunicación rechazada."+ioe);
-	      System.exit(1);
+	      System.out.println("Error al abrir el socket"+ioe);
+	      System.exit(-1);
 	    }
 
 	    while (true)
 	    {
 	      try
 	      {
-	        Socket nsfd = sfd.accept();
+	        Socket socket = sfd.accept();
+	        DataInputStream disco = new DataInputStream(socket.getInputStream());
+	        String str = disco.readUTF();
+	        
+	        try {
+	        	File outFile = new File("git\\Queseria\\factura\\factura.txt");
+	        	FileWriter outputStream = new FileWriter(outFile);
+	        	outputStream.write(str);
+	        	outputStream.close();
+	        } catch(IOException ioe) {
+	        	ioe.printStackTrace();
+	        }
+	        System.out.print("Factura Recibida");
+	        disco.close();
+	        socket.close();
 	      }
 	      catch(IOException ioe)
 	      {
