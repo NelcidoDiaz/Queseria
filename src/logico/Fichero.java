@@ -1,16 +1,22 @@
 package logico;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Fichero {
   private String direccion;
   
-  public void crearArchivo() throws IOException{
+  public Fichero(String direccion) {
+	super();
+	this.direccion = direccion;
+}
+public void crearArchivo() throws IOException{
 	 File archivo = new File(direccion);
 	 if(archivo.exists() == false) {
 		try {
@@ -24,12 +30,16 @@ public class Fichero {
 		}
 	 }
   }
-  public void escribirArchivo() throws IOException
+  public void escribirArchivo(ArrayList <Factura> lista) throws IOException
   {
 	 FileWriter archivo = new  FileWriter(direccion);
+	 BufferedWriter buffer = new BufferedWriter(archivo);
 	 try 
 	 {
 	  archivo.flush();	 
+	  for(Factura factura: lista) {
+		buffer.write(Float.toString(factura.getTotal()) + factura.getClienteNombre());
+	  }
 	 }
 	 catch(FileNotFoundException nodirec)
 	 {

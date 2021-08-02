@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Factura {
  private ArrayList <Queso> misQuesos = new ArrayList <Queso>();
  private Cliente cliente;
+ private float total;
  
 public Factura(ArrayList<Queso> misQuesos, Cliente cliente) {
 	super();
@@ -24,5 +25,13 @@ public Cliente getCliente() {
 public void setCliente(Cliente cliente) {
 	this.cliente = cliente;
 }
- 
+public float getTotal() {
+	return total;
+}
+public void setTotal(float total) {
+	this.total = total;
+}
+ public String getClienteNombre() {
+	 return cliente.getNombre();
+ }
 }
