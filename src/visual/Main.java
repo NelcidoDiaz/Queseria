@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -20,6 +21,10 @@ import logico.Queseria;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowStateListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.awt.event.WindowEvent;
 
 public class Main extends JFrame {
@@ -60,9 +65,19 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		addWindowStateListener(new WindowStateListener() {
-			public void windowStateChanged(WindowEvent arg0) {
-
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent arg0) {
+				FileOutputStream queseria2;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria2 = new FileOutputStream("git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaWrite = new ObjectOutputStream(queseria2);
+					queseriaWrite.writeObject(Queseria.getInstance());		
+				} catch(FileNotFoundException q1) {
+					q1.printStackTrace();
+				} catch(IOException q1) {
+					q1.printStackTrace();
+				}
 			}
 		});
 
