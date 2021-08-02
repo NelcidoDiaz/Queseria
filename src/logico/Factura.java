@@ -34,4 +34,21 @@ public void setTotal(float total) {
  public String getClienteNombre() {
 	 return cliente.getNombre();
  }
+ public int [] getQuesosId() {
+	 int [] Ids = new int [100];
+	 int contador = 0;
+	 for(Queso queso: misQuesos) {
+	  Ids[contador] = queso.getId();
+	  contador++;
+	 }
+	 return Ids;
+ }
+ public void getVolumen() {
+	 int contador = 0;
+	 float volumenes = 0;
+	 for(Queso queso: misQuesos)
+	 {
+	  
+	 }
+	 }
 }
