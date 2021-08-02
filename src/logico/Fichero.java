@@ -16,7 +16,7 @@ public class Fichero {
 	super();
 	this.direccion = direccion;
 }
-public void crearArchivo() throws IOException{
+public File crearArchivo() throws IOException{
 	 File archivo = new File(direccion);
 	 if(archivo.exists() == false) {
 		try {
@@ -29,6 +29,7 @@ public void crearArchivo() throws IOException{
 		 System.out.println("Ha habido algun erro");
 		}
 	 }
+	 return archivo;
   }
   public void escribirArchivo(ArrayList <Factura> lista) throws IOException
   {
