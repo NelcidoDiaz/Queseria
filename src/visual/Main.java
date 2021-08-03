@@ -21,9 +21,11 @@ import logico.Queseria;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowStateListener;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.awt.event.WindowEvent;
 
@@ -39,6 +41,23 @@ public class Main extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				FileInputStream queseria;
+				FileOutputStream queseria2;
+				ObjectInputStream queseriaRead;
+				ObjectOutputStream queseriaWrite;
+				try {
+					queseria = new FileInputStream("C:\\Users\\gesbi\\git\\Queseria\\respaldo\\Queseria.dat");
+					queseriaRead = new ObjectInputStream(queseria);
+					Queseria temp = (Queseria) queseriaRead.readObject();
+					Queseria.setControl(temp);
+					queseriaRead.close();
+				} catch (FileNotFoundException q) {
+				
+				} catch(IOException q) {
+					
+				}catch(ClassNotFoundException q) {
+					q.printStackTrace();
+				}
 				try {
 					Main frame = new Main();
 					frame.setVisible(true);

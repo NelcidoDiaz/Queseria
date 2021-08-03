@@ -34,6 +34,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.beans.PropertyChangeListener;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,6 +42,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.beans.PropertyChangeEvent;
 
@@ -322,6 +324,15 @@ public class ComprarQueso extends JFrame {
 				}
 				catch(IOException ioe) {
 					JOptionPane.showMessageDialog(null, "Error "+ioe);
+				}
+				try {
+					Socket sckt = new Socket("127.0.0.1",7000);
+					DataOutputStream dos = new DataOutputStream(sckt.getOutputStream());
+					dos.writeUTF(outStr);
+					dos.close();
+					sckt.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 				limpiar();
 				JOptionPane.showMessageDialog(null, "Factura realizada");

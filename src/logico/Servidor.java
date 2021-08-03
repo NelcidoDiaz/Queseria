@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class Servidor extends Thread {
-	public static Vector facturas = new Vector();
-	
 	public static void main(String[] args) {
 		ServerSocket sfd = null;
 		

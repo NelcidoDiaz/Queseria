@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 public class ListarClientes extends JFrame {
+	
 	private ArrayList<Cliente> misClientes = Queseria.getInstance().getMisClientes();;
 	private ArrayList <Factura> misFacturas = Queseria.getInstance().getMisFacturas();;
 	private ArrayList<Queso> misQuesos = Queseria.getInstance().getMisQuesos();
@@ -85,6 +86,10 @@ public class ListarClientes extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		DefaultTableModel dataModel = new DefaultTableModel();
+		dataModel.addColumn("Cedula");
+		dataModel.addColumn("Nombre");
+		dataModel.addColumn("Direccion");
+		dataModel.addColumn("Telefono");
 		table = new JTable();
 		table.setBounds(12, 12, 416, 194);
 		contentPane.add(table);
@@ -94,10 +99,12 @@ public class ListarClientes extends JFrame {
 		btnCerrar.setBounds(297, 222, 114, 25);
 		contentPane.add(btnCerrar);
 		
+		
 			addWindowListener(new WindowAdapter() {
 				int contador = 0;
 				@Override
 				public void windowActivated(WindowEvent e) {
+					int contador = 0;
 					for (Cliente cliente : misClientes) {
 						dataModel.insertRow(contador, new Object[] { cliente.getCedula(), cliente.getNombre(),
 								cliente.getDireccion(), cliente.getTelefono() });

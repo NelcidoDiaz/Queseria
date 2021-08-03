@@ -1,8 +1,8 @@
 -------------------------------------------
 Factura 
 -------------------------------------------
-Cliente: Rafael
-Telefono: 829277856
+Cliente: Gesbi
+Telefono: 8249
 Fecha de facturacion: 02-08-2021
 -------------------------------------------
 Producto      Tipo     Volumen      Precio
